@@ -5,11 +5,11 @@ Sometimes you want to use Eloquent, but without dealing with a database.
 
 ## Important Notice
 
-This is a fork of https://github.com/calebporzio/sushi - however it allows you to run Sushi without having a full Laravel installation, allowing you to pull it into other frameworks.
+This is a fork of https://github.com/calebporzio/sushi - however it allows you to run Sushi without having a full Laravel installation, allowing you to pull it into other frameworks, it's 90% Celebs code, with additional work-arounds to avoid core Laravel features such as the IoC Container, and global helpers.
 
 ## Install
 ```
-composer require owenmelbz/Sashimi
+composer require owenmelbz/sashimi
 ```
 
 ## Use
