@@ -1,26 +1,21 @@
-# Sushi 🍣
+# Sashimi 🍣
 Eloquent's missing "array" driver.
 
 Sometimes you want to use Eloquent, but without dealing with a database.
 
-## This Package Is Sponsorware 💰💰💰
-Originally, this package was only available to my sponsors on GitHub Sponsors until I reached 75 sponsors.
+## Important Notice
 
-Now that we've reached the goal, the package is fully open source.
-
-Enjoy, and thanks for the support! ❤️
-
-Learn more about **Sponsorware** at [github.com/sponsorware/docs](https://github.com/sponsorware/docs) 💰.
+This is a fork of https://github.com/calebporzio/sushi - however it allows you to run Sushi without having a full Laravel installation, allowing you to pull it into other frameworks.
 
 ## Install
 ```
-composer require calebporzio/sushi
+composer require owenmelbz/Sashimi
 ```
 
 ## Use
 
 Using this package consists of two steps:
-1. Add the `Sushi` trait to a model.
+1. Add the `Sashimi` trait to a model.
 2. Add a `$rows` property to the model.
 
 That's it.
@@ -28,7 +23,7 @@ That's it.
 ```php
 class State extends Model
 {
-    use \Sushi\Sushi;
+    use \Sashimi\Sashimi;
 
     protected $rows = [
         [
@@ -51,11 +46,11 @@ $stateName = State::whereAbbr('NY')->first()->name;
 This is really useful for "Fixture" data, like states, countries, zip codes, user_roles, sites_settings, etc...
 
 ### Relationships
-Let's say you created a `Role` model, based on an array using Sushi, that looked like this:
+Let's say you created a `Role` model, based on an array using Sashimi, that looked like this:
 ```php
 class Role extends Model
 {
-    use \Sushi\Sushi;
+    use \Sashimi\Sashimi;
 
     protected $rows = [
         ['id' => 1, 'label' => 'admin'],
@@ -96,15 +91,15 @@ $user->load('role');
 User::with('role')->first();
 ```
 
-> Note: There is one caveat when dealing with Sushi model relationships. The `whereHas` method will NOT work. This is because the two models are spread across two separate databases.
+> Note: There is one caveat when dealing with Sashimi model relationships. The `whereHas` method will NOT work. This is because the two models are spread across two separate databases.
 
 ### Custom Schema
-If Sushi's schema auto-detection system doesn't meet your specific requirements for the supplied row data, you can customize them with the `$schema` property or the `getSchema()` method.
+If Sashimi's schema auto-detection system doesn't meet your specific requirements for the supplied row data, you can customize them with the `$schema` property or the `getSchema()` method.
 
 ```php
 class Products extends Model
 {
-    use \Sushi\Sushi;
+    use \Sashimi\Sashimi;
 
     protected $rows = [
         ['name' => 'Lawn Mower', 'price' => '226.99'],
@@ -131,7 +126,7 @@ This will allow you to determine the rows for the model at runtime. You can even
 ```php
 class Role extends Model
 {
-    use \Sushi\Sushi;
+    use \Sashimi\Sashimi;
 
     public function getRows()
     {
