@@ -4,13 +4,13 @@
     "license": "MIT",
     "authors": [
         {
+            "name": "Caleb Porzio",
+            "email": "calebporzio@gmail.com"
+        },
+        {
             "name": "Owen Melbourne",
             "email": "owenmelbz@gmail.com"
         },
-        {
-            "name": "Caleb Porzio",
-            "email": "calebporzio@gmail.com"
-        }
     ],
     "require": {
         "php": "^7.1.3",
