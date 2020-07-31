@@ -6,7 +6,7 @@
  */
 class CountryExample extends Model
 {
-    use \Sushi\Sushi;
+    use \Sashimi\Sushi;
 
     protected $rows = [
         ['code' => 'AF', 'code3' => 'AFG', 'name' => 'Afghanistan', 'number' => '004'],

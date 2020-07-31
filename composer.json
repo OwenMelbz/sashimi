@@ -1,8 +1,12 @@
 {
-    "name": "calebporzio/sushi",
+    "name": "owenmelbz/sashimi",
     "description": "Eloquent's missing \"array\" driver.",
     "license": "MIT",
     "authors": [
+        {
+            "name": "Owen Melbourne",
+            "email": "owenmelbz@gmail.com"
+        },
         {
             "name": "Caleb Porzio",
             "email": "calebporzio@gmail.com"
@@ -21,7 +25,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Sushi\\": "src/"
+            "Sashimi\\": "src/"
         }
     },
     "autoload-dev": {

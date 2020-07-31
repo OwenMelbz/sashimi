@@ -14,7 +14,9 @@ class SushiTest extends TestCase
     {
         parent::setUp();
 
-        config(['sushi.cache-path' => $this->cachePath = __DIR__.'/cache']);
+        $this->cachePath = __DIR__ . '/../vendor/.cache';
+
+        \Sashimi\Sushi::setSushiCachePath($this->cachePath);
 
         Foo::resetStatics();
         Bar::resetStatics();
@@ -72,24 +74,13 @@ class SushiTest extends TestCase
     }
 
     /** @test */
-    function uses_in_memory_if_the_cache_directory_is_not_writeable_or_not_found()
-    {
-        config(['sushi.cache-path' => $path = __DIR__.'/non-existant-path']);
-
-        Foo::count();
-
-        $this->assertFalse(file_exists($path));
-        $this->assertEquals(':memory:', (new Foo)->getConnection()->getDatabaseName());
-    }
-
-    /** @test */
     function caches_sqlite_file_if_storage_cache_folder_is_available()
     {
         Foo::count();
 
         $this->assertTrue(file_exists($this->cachePath));
         $this->assertStringContainsString(
-            'sushi/tests/cache/sushi-tests-foo.sqlite',
+            '.cache/sushi/tests-foo.sqlite',
             str_replace('\\', '/', (new Foo())->getConnection()->getDatabaseName())
         );
     }
@@ -115,7 +106,7 @@ class SushiTest extends TestCase
 
 class Foo extends Model
 {
-    use \Sushi\Sushi;
+    use \Sashimi\Sushi;
 
     protected $rows = [
         ['foo' => 'bar', 'bob' => 'lob'],
@@ -128,16 +119,11 @@ class Foo extends Model
         static::setSushiConnection(null);
         static::clearBootedModels();
     }
-
-    public static function setSushiConnection($connection)
-    {
-        static::$sushiConnection = $connection;
-    }
 }
 
 class ModelWithVaryingTypeColumns extends Model
 {
-    use \Sushi\Sushi;
+    use \Sashimi\Sushi;
 
     public function getRows() {
         return [[
@@ -152,7 +138,7 @@ class ModelWithVaryingTypeColumns extends Model
 
 class ModelWithCustomSchema extends Model
 {
-    use \Sushi\Sushi;
+    use \Sashimi\Sushi;
 
     protected $rows = [[
         'float' => 123.456,
@@ -166,7 +152,7 @@ class ModelWithCustomSchema extends Model
 
 class Bar extends Model
 {
-    use \Sushi\Sushi;
+    use \Sashimi\Sushi;
 
     public static $hasBeenAccessedBefore = false;
 
@@ -193,14 +179,9 @@ class Bar extends Model
         static::setSushiConnection(null);
         static::clearBootedModels();
     }
-
-    public static function setSushiConnection($connection)
-    {
-        static::$sushiConnection = $connection;
-    }
 }
 
 class Baz extends Model
 {
-    use \Sushi\Sushi;
+    use \Sashimi\Sushi;
 }

@@ -15,7 +15,7 @@ composer require owenmelbz/sashimi
 ## Use
 
 Using this package consists of two steps:
-1. Add the `Sashimi` trait to a model.
+1. Add the `\Sashimi\Sushi` trait to a model.
 2. Add a `$rows` property to the model.
 
 That's it.
@@ -23,7 +23,7 @@ That's it.
 ```php
 class State extends Model
 {
-    use \Sashimi\Sashimi;
+    use \Sashimi\Sushi;
 
     protected $rows = [
         [
@@ -46,11 +46,11 @@ $stateName = State::whereAbbr('NY')->first()->name;
 This is really useful for "Fixture" data, like states, countries, zip codes, user_roles, sites_settings, etc...
 
 ### Relationships
-Let's say you created a `Role` model, based on an array using Sashimi, that looked like this:
+Let's say you created a `Role` model, based on an array using Sushi, that looked like this:
 ```php
 class Role extends Model
 {
-    use \Sashimi\Sashimi;
+    use \Sashimi\Sushi;
 
     protected $rows = [
         ['id' => 1, 'label' => 'admin'],
@@ -91,15 +91,15 @@ $user->load('role');
 User::with('role')->first();
 ```
 
-> Note: There is one caveat when dealing with Sashimi model relationships. The `whereHas` method will NOT work. This is because the two models are spread across two separate databases.
+> Note: There is one caveat when dealing with Sushi model relationships. The `whereHas` method will NOT work. This is because the two models are spread across two separate databases.
 
 ### Custom Schema
-If Sashimi's schema auto-detection system doesn't meet your specific requirements for the supplied row data, you can customize them with the `$schema` property or the `getSchema()` method.
+If Sushi's schema auto-detection system doesn't meet your specific requirements for the supplied row data, you can customize them with the `$schema` property or the `getSchema()` method.
 
 ```php
 class Products extends Model
 {
-    use \Sashimi\Sashimi;
+    use \Sashimi\Sushi;
 
     protected $rows = [
         ['name' => 'Lawn Mower', 'price' => '226.99'],
@@ -126,7 +126,7 @@ This will allow you to determine the rows for the model at runtime. You can even
 ```php
 class Role extends Model
 {
-    use \Sashimi\Sashimi;
+    use \Sashimi\Sushi;
 
     public function getRows()
     {

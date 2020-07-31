@@ -1,36 +1,48 @@
 <?php
 
-namespace Sushi;
+namespace Sashimi;
 
-use Illuminate\Database\Connectors\ConnectionFactory;
 use Illuminate\Support\Str;
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 trait Sushi
 {
     protected static $sushiConnection;
 
-    public function getRows()
-    {
-        return $this->rows;
-    }
-
-    public function getSchema()
-    {
-        return $this->schema ?? [];
-    }
+    protected static $sushiCachePath = __DIR__ . '/../../vendor/.cache';
 
     public static function resolveConnection($connection = null)
     {
         return static::$sushiConnection;
     }
 
+    public static function setSushiConnection($connection)
+    {
+        static::$sushiConnection = $connection;
+    }
+
+    public static function setSushiCachePath($path)
+    {
+        static::$sushiCachePath = $path;
+    }
+
+    public static function getSushiCachePath()
+    {
+        return static::$sushiCachePath;
+    }
+
     public static function bootSushi()
     {
         $instance = (new static);
 
-        $cacheFileName = config('sushi.cache-prefix', 'sushi').'-'.Str::kebab(str_replace('\\', '', static::class)).'.sqlite';
-        $cacheDirectory = realpath(config('sushi.cache-path', storage_path('framework/cache')));
+        $cacheFileName = Str::kebab(str_replace('\\', '', static::class)).'.sqlite';
+        $cacheDirectory = static::$sushiCachePath;
         $cachePath = $cacheDirectory.'/'.$cacheFileName;
+
+        if (!file_exists($cacheDirectory)) {
+            mkdir($cacheDirectory, 0755, true);
+        }
+
         $modelPath = (new \ReflectionClass(static::class))->getFileName();
 
         $states = [
@@ -74,10 +86,27 @@ trait Sushi
 
     protected static function setSqliteConnection($database)
     {
-        static::$sushiConnection = app(ConnectionFactory::class)->make([
-            'driver' => 'sqlite',
-            'database' => $database,
+        $capsule = new Capsule;
+
+        $capsule->addConnection([
+            'driver'    => 'sqlite',
+            'database'  => $database,
         ]);
+
+        $capsule->setAsGlobal();
+        $capsule->bootEloquent();
+
+        static::setSushiConnection($capsule->getConnection());
+    }
+
+    public function getRows()
+    {
+        return $this->rows;
+    }
+
+    public function getSchema()
+    {
+        return $this->schema ?? [];
     }
 
     public function migrate()
