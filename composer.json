@@ -10,7 +10,7 @@
         {
             "name": "Owen Melbourne",
             "email": "owenmelbz@gmail.com"
-        },
+        }
     ],
     "require": {
         "php": "^7.1.3",
